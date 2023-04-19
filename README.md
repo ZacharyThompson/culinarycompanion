@@ -1,1 +1,6 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/lIGLlJhU)
+# Final Project Submission
+Our submission for CPSC 411, Section 01, Final Project
+# Our Information
+* Nathan Kim <Nathan.kim@csu.fullerton.edu> 887582997
+* Javier Perez <javierp2013@csu.fullerton.edu> 889426516
+* Zachary Thompson <zachth1723@csu.fullerton.edu> 887795516
