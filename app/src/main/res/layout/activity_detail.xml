@@ -55,12 +55,12 @@
 
             </RelativeLayout>
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
-                app:layout_collapseMode="pin"
-                app:title="How to cook" />
+<!--            <androidx.appcompat.widget.Toolbar-->
+<!--                android:id="@+id/toolbar"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="55dp"-->
+<!--                app:layout_collapseMode="pin"-->
+<!--                app:title="How to cook" />-->
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
@@ -70,7 +70,7 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="275dp">
+        android:paddingTop="260dp">
 
         <TextView
             android:id="@+id/tv_meal"
@@ -121,29 +121,36 @@
 
         <TextView
             android:id="@+id/tv_ingredients"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="253dp"
+            android:layout_marginEnd="9dp"
+            android:layout_marginBottom="254dp"
             android:padding="5dp"
             android:textColor="@color/black"
             android:textSize="12sp"
             android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/textView4"
+            app:layout_constraintEnd_toStartOf="@+id/tv_measures"
+            app:layout_constraintStart_toEndOf="@+id/textView4"
+            app:layout_constraintTop_toTopOf="@+id/tv_sub_meal"
             tools:layout_conversion_absoluteHeight="26dp"
             tools:layout_conversion_absoluteWidth="56dp"
-            tools:layout_editor_absoluteX="282dp"
-            tools:layout_editor_absoluteY="275dp"
             tools:text="\u2022 Chili" />
 
         <TextView
             android:id="@+id/tv_measures"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="7dp"
             android:textColor="@color/black"
             android:textSize="12sp"
             android:textStyle="bold"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tv_ingredients"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_ingredients"
             tools:layout_conversion_absoluteHeight="16dp"
             tools:layout_conversion_absoluteWidth="57dp"
-            tools:layout_editor_absoluteX="347dp"
-            tools:layout_editor_absoluteY="280dp"
             tools:text=": 1 pcs" />
 
 
