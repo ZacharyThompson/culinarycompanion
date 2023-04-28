@@ -3,7 +3,6 @@ package edu.fullerton.fz.culinarycompanion.api
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -11,14 +10,14 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 private const val TAG = "MealDBExecutor"
 class MealDBExecutor {
-    private val api: MealDBAPI
+    private val api: MealDBAPIRandom
 
     init {
         val retrofit: Retrofit = Retrofit.Builder()
             .baseUrl("https://www.themealdb.com/api/json/v1/1/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-        this.api = retrofit.create(MealDBAPI::class.java)
+        this.api = retrofit.create(MealDBAPIRandom::class.java)
     }
     fun fetchMeals(): LiveData<List<Meal>> {
 

@@ -6,16 +6,10 @@ import android.util.Log
 import android.widget.ImageView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.squareup.picasso.Picasso
 import retrofit2.*
-import androidx.fragment.app.Fragment
 import edu.fullerton.fz.culinarycompanion.api.*
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.converter.moshi.MoshiConverterFactory
-
-import java.io.IOException
 
 class MainActivity : AppCompatActivity() {
     private lateinit var headerImage: ImageView
@@ -23,7 +17,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         headerImage = findViewById(R.id.iv_meal)
-        //here we call fetchMeals to populate the headerimage
+        //here we call fetchMeals(random) to populate the headerimage
         this.fetchMeals()
     }
     fun fetchMeals(): LiveData<List<Meal>> {
@@ -47,12 +41,13 @@ class MainActivity : AppCompatActivity() {
         return responseLiveData
     }
 
-    private val api: MealDBAPI
+    //here we are using the random endpoint.
+    private val api: MealDBAPIRandom
     init {
         val retrofit: Retrofit = Retrofit.Builder()
             .baseUrl("https://www.themealdb.com/api/json/v1/1/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-        this.api = retrofit.create(MealDBAPI::class.java)
+        this.api = retrofit.create(MealDBAPIRandom::class.java)
     }
 }
