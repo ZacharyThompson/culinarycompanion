@@ -6,6 +6,6 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface MealDBAPI {
-    @GET("random.php")
+    @GET("search.php?f=a")
     fun fetchMeals(): Call<MealResponse>
 }

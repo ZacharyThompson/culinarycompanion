@@ -1,3 +1,8 @@
 package edu.fullerton.fz.culinarycompanion.api
 
-data class MealResponse(val results: List<Meal>)
+import com.google.gson.annotations.SerializedName
+
+class MealResponse {
+    @SerializedName("meals")
+    lateinit var meals: List<Meal>
+}
