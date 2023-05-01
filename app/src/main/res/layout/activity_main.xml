@@ -18,7 +18,7 @@
         android:id="@+id/shimmer_recommendation"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="150dp">
+        android:paddingTop="130dp">
 
         <include layout="@layout/shimmer_recommendation" />
     </LinearLayout>
@@ -27,7 +27,7 @@
         android:id="@+id/shimmer_categories"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="400dp">
+        android:paddingTop="350dp">
 
         <include layout="@layout/shimmer_categories" />
     </LinearLayout>
