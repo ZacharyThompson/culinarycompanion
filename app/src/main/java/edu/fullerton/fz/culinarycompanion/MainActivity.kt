@@ -19,6 +19,15 @@ class MainActivity : AppCompatActivity() {
         headerImage = findViewById(R.id.iv_meal)
         //here we call fetchMeals(random) to populate the headerimage
         this.fetchMeals()
+
+        val categoryListFragment = this.supportFragmentManager.findFragmentById(R.id.category_list_frame_layout)
+        if (categoryListFragment == null) {
+            val fragment = CategoryListFragment()
+            this.supportFragmentManager
+                .beginTransaction()
+                .add(R.id.category_list_frame_layout, fragment)
+                .commit()
+        }
     }
     fun fetchMeals(): LiveData<List<Meal>> {
         val responseLiveData: MutableLiveData<List<Meal>> = MutableLiveData()
