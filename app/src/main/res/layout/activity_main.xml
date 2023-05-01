@@ -23,12 +23,18 @@
         <include layout="@layout/shimmer_recommendation" />
     </LinearLayout>
 
-    <FrameLayout
-        android:id="@+id/category_list_frame_layout"
+    <LinearLayout
+        android:id="@+id/category_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </FrameLayout>
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:paddingTop="200dp">
 
+        <FrameLayout
+            android:id="@+id/category_list_frame_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></FrameLayout>
+    </LinearLayout>
 
 
 </RelativeLayout>
