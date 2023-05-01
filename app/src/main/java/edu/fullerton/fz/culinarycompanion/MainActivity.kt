@@ -50,4 +50,5 @@ class MainActivity : AppCompatActivity() {
             .build()
         this.api = retrofit.create(MealDBAPIRandom::class.java)
     }
+
 }
