@@ -11,6 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 private const val TAG = "MealDBExecutor"
 class MealDBExecutor {
     private val api: MealDBAPIRandom
+    private val category_api: MealDBAPICategories
 
     init {
         val retrofit: Retrofit = Retrofit.Builder()
@@ -18,6 +19,7 @@ class MealDBExecutor {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         this.api = retrofit.create(MealDBAPIRandom::class.java)
+        this.category_api = retrofit.create(MealDBAPICategories::class.java)
     }
     fun fetchMeals(): LiveData<List<Meal>> {
 
@@ -48,6 +50,37 @@ class MealDBExecutor {
         })
 
         return responseLiveData
+    }
+
+    fun fetchCategories(): LiveData<List<Category>> {
+        val responseLiveData: MutableLiveData<List<Category>> = MutableLiveData()
+
+        val mealDBRequest: Call<CategoryResponse> = this.category_api.fetchCategories()
+
+        mealDBRequest.enqueue(object: Callback<CategoryResponse> {
+
+            override fun onFailure(call: Call<CategoryResponse>, t: Throwable) {
+                Log.e(TAG, "Response received from CategoryDB fetch failed")
+            }
+
+            override fun onResponse(
+                call: Call<CategoryResponse>,
+                response: Response<CategoryResponse>
+            ) {
+                val CategoryResponse: CategoryResponse? = response.body()
+                Log.d("API TEST", "Success!")
+                Log.d("API TEST", response.raw().toString())
+
+                var myCategorys: List<Category>? = CategoryResponse?.categories
+                //Log.d(TAG, "ImgFlip templates: $memeTemplates")
+                responseLiveData.value = myCategorys
+                Log.d("API TEST", myCategorys!![2].strCategory!!)
+
+            }
+        })
+
+        return responseLiveData
+
     }
 
 }

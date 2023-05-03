@@ -8,23 +8,28 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import edu.fullerton.fz.culinarycompanion.api.Category
 
-const val LOG_TAG = "CategoryListFragment"
+private const val LOG_TAG = "CategoryListFragment"
 
-val DUMMY_CATEGORY_LIST = listOf<Pair<Category, Category>>(
-    Pair(Category("hello", "Hello", "https://www.themealdb.com/images/category/chicken.png", "bye"), Category("hi", "Hi", "https://www.themealdb.com/images/category/beef.png", "Bye")),
-    Pair(Category("hello", "Hello", "https://www.themealdb.com/images/category/chicken.png", "bye"), Category("hi", "Hi", "https://www.themealdb.com/images/category/beef.png", "Bye")),
-    Pair(Category("hello", "Hello", "https://www.themealdb.com/images/category/chicken.png", "bye"), Category("hi", "Hi", "https://www.themealdb.com/images/category/beef.png", "Bye")),
-    Pair(Category("hello", "Hello", "https://www.themealdb.com/images/category/chicken.png", "bye"), Category("hi", "Hi", "https://www.themealdb.com/images/category/beef.png", "Bye")),
-    Pair(Category("hello", "Hello", "https://www.themealdb.com/images/category/chicken.png", "bye"), Category("hi", "Hi", "https://www.themealdb.com/images/category/beef.png", "Bye")),
-    Pair(Category("hello", "Hello", "https://www.themealdb.com/images/category/chicken.png", "bye"), Category("hi", "Hi", "https://www.themealdb.com/images/category/beef.png", "Bye")),
+val DUMMY_CATEGORY_LIST = listOf<List<Category>>(
+    listOf(Category("hello", "Hello", "https://www.themealdb.com/images/category/chicken.png", "bye"), Category("hi", "Hi", "https://www.themealdb.com/images/category/beef.png", "Bye")),
+    listOf(Category("hello", "Hello", "https://www.themealdb.com/images/category/chicken.png", "bye"), Category("hi", "Hi", "https://www.themealdb.com/images/category/beef.png", "Bye")),
+    listOf(Category("hello", "Hello", "https://www.themealdb.com/images/category/chicken.png", "bye"), Category("hi", "Hi", "https://www.themealdb.com/images/category/beef.png", "Bye")),
+    listOf(Category("hello", "Hello", "https://www.themealdb.com/images/category/chicken.png", "bye"), Category("hi", "Hi", "https://www.themealdb.com/images/category/beef.png", "Bye")),
+    listOf(Category("hello", "Hello", "https://www.themealdb.com/images/category/chicken.png", "bye"), Category("hi", "Hi", "https://www.themealdb.com/images/category/beef.png", "Bye")),
+    listOf(Category("hello", "Hello", "https://www.themealdb.com/images/category/chicken.png", "bye"), Category("hi", "Hi", "https://www.themealdb.com/images/category/beef.png", "Bye")),
+    listOf(Category("hello", "Hello", "https://www.themealdb.com/images/category/chicken.png", "bye"), Category("hi", "Hi", "https://www.themealdb.com/images/category/beef.png", "Bye")),
 )
+
+val EMPTY_CATEGORY_LIST = listOf<List<Category>>()
 class CategoryListFragment : Fragment(){
     private lateinit var categoryRecyclerView: RecyclerView
+    private lateinit var categoryViewModel: CategoryViewModel
 
     private var adapter: CategoryAdapter? = null
 
@@ -37,26 +42,23 @@ class CategoryListFragment : Fragment(){
         this.categoryRecyclerView = view.findViewById(R.id.category_recycler_view) as RecyclerView
         this.categoryRecyclerView.layoutManager = LinearLayoutManager(context)
 
-        this.updateUI()
+        val categories = categoryViewModel.getCategories()
+        if (categories != null) {
+            Log.d(LOG_TAG, "Received List of Categories. Size = ${categories.size}")
+            adapter = CategoryAdapter(categories)
+        }
+        else {
+            Log.d(LOG_TAG, "List of Categories is null")
+            adapter = CategoryAdapter(EMPTY_CATEGORY_LIST)
+        }
+        this.categoryRecyclerView.adapter = adapter
 
         return view
     }
 
-    /*
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-    }
-    */
-
-    private fun updateUI() {
-        // TODO: get incoming list of category pairs
-        val categories = getCategories()
-        adapter = CategoryAdapter(categories)
-        this.categoryRecyclerView.adapter = adapter
-    }
-
-    private fun getCategories(): List<Pair<Category, Category>> {
-        return DUMMY_CATEGORY_LIST
+        this.categoryViewModel = ViewModelProvider(this.requireActivity())[CategoryViewModel::class.java]
     }
 
     private inner class CategoryHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -81,7 +83,7 @@ class CategoryListFragment : Fragment(){
             Log.d(LOG_TAG, "Category2 Thumbnail loaded: ${category2.strCategoryThumb}")
         }
     }
-    private inner class CategoryAdapter (var categories: List<Pair<Category, Category>>)
+    private inner class CategoryAdapter (var categories: List<List<Category>>)
         : RecyclerView.Adapter<CategoryHolder>()
     {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryHolder {
@@ -90,8 +92,8 @@ class CategoryListFragment : Fragment(){
         }
 
         override fun onBindViewHolder(holder: CategoryHolder, position: Int) {
-            val category1 = this.categories[position].first
-            val category2 = this.categories[position].second
+            val category1 = this.categories[position][0]
+            val category2 = this.categories[position][1]
             holder.bind(category1, category2)
         }
 
