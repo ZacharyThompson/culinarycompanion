@@ -18,6 +18,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var categoryImage2: ImageView
     private lateinit var categoryTXT1: TextView
     private lateinit var categoryTXT2: TextView
+    private lateinit var reccomendedName: TextView
+    private lateinit var reccomendedCategory: TextView
+    private lateinit var reccomendedArea: TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -26,6 +29,9 @@ class MainActivity : AppCompatActivity() {
         categoryImage2 = findViewById(R.id.categoryimg2)
         categoryTXT1 = findViewById(R.id.category2text)
         categoryTXT2 = findViewById(R.id.category1text)
+        reccomendedName = findViewById(R.id.tv_meal)
+        reccomendedCategory = findViewById(R.id.iv_category)
+        reccomendedArea = findViewById(R.id.iv_Area)
         //here we call fetchMeals(random) to populate the headerimage
         this.fetchMeals()
         this.fetchFaves()
@@ -48,6 +54,9 @@ class MainActivity : AppCompatActivity() {
                 responseLiveData.value = myMeals
                 //here we actually access the data from the response and put it into the header
                 Picasso.get().load(myMeals!![0].strMealThumb).into(headerImage)
+                reccomendedName.setText(myMeals!![0].strMeal)
+                reccomendedArea.setText("Area: " +myMeals!![0].strArea)
+                reccomendedCategory.setText(myMeals!![0].strCategory)
             }
         })
         return responseLiveData
@@ -153,7 +162,6 @@ class MainActivity : AppCompatActivity() {
                 Picasso.get().load(myCategories!![1].strCategoryThumb).into(categoryImage2)
                 categoryTXT1.setText(myCategories!![0].strCategory)
                 categoryTXT2.setText(myCategories!![1].strCategory)
-                Log.e("strcategory", myCategories!![1].strCategory + myCategories!![0].strCategory)
             }
         })
         return responseLiveData
