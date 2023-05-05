@@ -19,6 +19,8 @@ class MainActivity : AppCompatActivity() {
         headerImage = findViewById(R.id.iv_meal)
         //here we call fetchMeals(random) to populate the headerimage
         this.fetchMeals()
+        this.fetchFaves()
+        this.postFave("100")
     }
     fun fetchMeals(): LiveData<List<Meal>> {
         val responseLiveData: MutableLiveData<List<Meal>> = MutableLiveData()
@@ -41,6 +43,8 @@ class MainActivity : AppCompatActivity() {
         return responseLiveData
     }
 
+
+
     //here we are using the random endpoint.
     private val api: MealDBAPIRandom
     init {
@@ -50,5 +54,73 @@ class MainActivity : AppCompatActivity() {
             .build()
         this.api = retrofit.create(MealDBAPIRandom::class.java)
     }
+    private val Faveapi: FavoritesAPI
+    init {
+        val retrofit: Retrofit = Retrofit.Builder()
+            .baseUrl("http://waggles.org:8080/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        this.Faveapi = retrofit.create(FavoritesAPI::class.java)
+    }
 
+    fun fetchFaves(): LiveData<List<String>> {
+
+        val responseLiveData: MutableLiveData<List<String>> = MutableLiveData()
+
+        val favoritesRequest: Call<favoritesResponse> = this.Faveapi.fetchFavorites()
+
+        favoritesRequest.enqueue(object: Callback<favoritesResponse> {
+
+            override fun onFailure(call: Call<favoritesResponse>, t: Throwable) {
+                Log.e("API TEST", "Response received from FavoritesAPI fetch failed" + t.message)
+            }
+
+            override fun onResponse(
+                call: Call<favoritesResponse>,
+                response: Response<favoritesResponse>
+            ) {
+                val favoritesResponse: favoritesResponse? = response.body()
+                Log.d("API TEST", "Success!")
+                Log.d("API TEST", response.raw().toString())
+
+                var favorites: List<String>? = favoritesResponse?.favorites
+                //Log.d(TAG, "ImgFlip templates: $memeTemplates")
+                responseLiveData.value = favorites
+                Log.d("Favorites test", favorites!![0])
+
+            }
+        })
+
+        return responseLiveData
+    }
+    fun postFave(value:String): LiveData<String> {
+
+        val responseLiveData: MutableLiveData<String> = MutableLiveData()
+
+        val favoritesRequest: Call<favePostResponse> = this.Faveapi.postFavorite(value)
+
+        favoritesRequest.enqueue(object: Callback<favePostResponse> {
+
+            override fun onFailure(call: Call<favePostResponse>, t: Throwable) {
+                Log.e("API TEST", "Response received from FavoritesAPI fetch failed" + t.message)
+            }
+
+            override fun onResponse(
+                call: Call<favePostResponse>,
+                response: Response<favePostResponse>
+            ) {
+                val favoritesResponse: favePostResponse? = response.body()
+                Log.d("API TEST", "Success!")
+                Log.d("API TEST", response.raw().toString())
+
+                var favorites: String? = favoritesResponse?.fave
+                //Log.d(TAG, "ImgFlip templates: $memeTemplates")
+                responseLiveData.value = favorites
+                Log.d("Favorites POST test", favorites!!)
+
+            }
+        })
+
+        return responseLiveData
+    }
 }
