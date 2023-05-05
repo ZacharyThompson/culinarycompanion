@@ -75,7 +75,8 @@
                 <View
                     android:layout_width="100dp"
                     android:layout_height="8dp"
-                    android:background="@color/shimmerBg" />
+                    android:background="@color/shimmerBg"
+                    />
 
                 <View
                     android:id="@+id/view"

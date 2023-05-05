@@ -5,5 +5,5 @@ import retrofit2.http.GET
 
 interface MealDBAPICategories {
     @GET("categories.php")
-    fun fetchMeals(): Call<CategoryResponse>
+    fun fetchCategories(): Call<CategoryResponse>
 }
