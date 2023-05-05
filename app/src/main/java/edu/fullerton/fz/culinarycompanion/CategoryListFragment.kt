@@ -43,6 +43,7 @@ class CategoryListFragment : Fragment(){
         this.categoryRecyclerView.layoutManager = LinearLayoutManager(context)
 
         val categories = categoryViewModel.getCategories()
+//        val categories = DUMMY_CATEGORY_LIST
         if (categories != null) {
             Log.d(LOG_TAG, "Received List of Categories. Size = ${categories.size}")
             adapter = CategoryAdapter(categories)
