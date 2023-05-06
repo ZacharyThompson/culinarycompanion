@@ -42,18 +42,17 @@ class CategoryListFragment : Fragment(){
         this.categoryRecyclerView = view.findViewById(R.id.category_recycler_view) as RecyclerView
         this.categoryRecyclerView.layoutManager = LinearLayoutManager(context)
 
-        val categories = categoryViewModel.getCategories()
-//        val categories = DUMMY_CATEGORY_LIST
-        if (categories != null) {
-            Log.d(LOG_TAG, "Received List of Categories. Size = ${categories.size}")
-            adapter = CategoryAdapter(categories)
-        }
-        else {
-            Log.d(LOG_TAG, "List of Categories is null")
-            adapter = CategoryAdapter(EMPTY_CATEGORY_LIST)
-        }
+        Log.d(LOG_TAG, "Create adapter with empty list")
+        adapter = CategoryAdapter(EMPTY_CATEGORY_LIST)
         this.categoryRecyclerView.adapter = adapter
 
+//        val categories = DUMMY_CATEGORY_LIST
+        categoryViewModel.categoryLiveData.observe(viewLifecycleOwner) { category_list ->
+            if (category_list != null) {
+                adapter = CategoryAdapter(category_list.chunked(2) {it.take(2)})
+                categoryRecyclerView.adapter = adapter
+            }
+        }
         return view
     }
 

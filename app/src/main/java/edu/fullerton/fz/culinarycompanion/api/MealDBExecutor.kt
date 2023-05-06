@@ -10,7 +10,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 private const val TAG = "MealDBExecutor"
 class MealDBExecutor {
-    private val api: MealDBAPIRandom
+    private val random_api: MealDBAPIRandom
     private val category_api: MealDBAPICategories
 
     init {
@@ -18,14 +18,14 @@ class MealDBExecutor {
             .baseUrl("https://www.themealdb.com/api/json/v1/1/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-        this.api = retrofit.create(MealDBAPIRandom::class.java)
+        this.random_api = retrofit.create(MealDBAPIRandom::class.java)
         this.category_api = retrofit.create(MealDBAPICategories::class.java)
     }
     fun fetchMeals(): LiveData<List<Meal>> {
 
         val responseLiveData: MutableLiveData<List<Meal>> = MutableLiveData()
 
-        val mealDBRequest: Call<MealResponse> = this.api.fetchMeals()
+        val mealDBRequest: Call<MealResponse> = this.random_api.fetchMeals()
 
         mealDBRequest.enqueue(object: Callback<MealResponse> {
 
@@ -67,14 +67,13 @@ class MealDBExecutor {
                 call: Call<CategoryResponse>,
                 response: Response<CategoryResponse>
             ) {
-                val CategoryResponse: CategoryResponse? = response.body()
-                Log.d("API TEST", "Success!")
-                Log.d("API TEST", response.raw().toString())
+                val categoryResponse: CategoryResponse? = response.body()
+                Log.i(TAG, "Success!")
+                Log.i(TAG, response.raw().toString())
 
-                var myCategorys: List<Category>? = CategoryResponse?.categories
-                //Log.d(TAG, "ImgFlip templates: $memeTemplates")
-                responseLiveData.value = myCategorys
-                Log.d("API TEST", myCategorys!![2].strCategory!!)
+                var myCategories: List<Category>? = categoryResponse?.categories
+                responseLiveData.value = myCategories
+                Log.d(TAG, "Category List size: ${myCategories!!.size}")
 
             }
         })
