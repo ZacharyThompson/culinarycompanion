@@ -25,6 +25,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         headerImage = findViewById(R.id.iv_meal)
+        reccomendedName = findViewById(R.id.tv_meal)
+        reccomendedCategory = findViewById(R.id.iv_category)
+        reccomendedArea = findViewById(R.id.iv_Area)
         //here we call fetchMeals(random) to populate the headerimage
         this.fetchMeals()
 
@@ -36,6 +39,7 @@ class MainActivity : AppCompatActivity() {
                 .add(R.id.category_list_frame_layout, fragment)
                 .commit()
         }
+        fetchMeals()
     }
     fun fetchMeals(): LiveData<List<Meal>> {
         val responseLiveData: MutableLiveData<List<Meal>> = MutableLiveData()
@@ -159,8 +163,8 @@ class MainActivity : AppCompatActivity() {
                 //here we actually access the data from the response and put it into the header
                 Picasso.get().load(myCategories!![0].strCategoryThumb).into(categoryImage1)
                 Picasso.get().load(myCategories!![1].strCategoryThumb).into(categoryImage2)
-                categoryTXT1.setText(myCategories!![0].strCategory)
-                categoryTXT2.setText(myCategories!![1].strCategory)
+                //categoryTXT1.setText(myCategories!![0].strCategory)
+                //categoryTXT2.setText(myCategories!![1].strCategory)
             }
         })
         return responseLiveData
