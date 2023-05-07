@@ -1,9 +1,11 @@
 package edu.fullerton.fz.culinarycompanion
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -40,6 +42,13 @@ class MainActivity : AppCompatActivity() {
                 .commit()
         }
         fetchMeals()
+
+        var details = findViewById<LinearLayout>(R.id.shimmer_recommendation)
+        details.setOnClickListener {
+            val intent = Intent(this, DetailTabActivity::class.java)
+            startActivity(intent)
+        }
+
     }
     fun fetchMeals(): LiveData<List<Meal>> {
         val responseLiveData: MutableLiveData<List<Meal>> = MutableLiveData()
