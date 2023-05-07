@@ -12,6 +12,7 @@ private const val TAG = "MealDBExecutor"
 class MealDBExecutor {
     private val random_api: MealDBAPIRandom
     private val category_api: MealDBAPICategories
+    private val meal_by_category_api: MealDBAPIbyCategory
 
     init {
         val retrofit: Retrofit = Retrofit.Builder()
@@ -20,6 +21,7 @@ class MealDBExecutor {
             .build()
         this.random_api = retrofit.create(MealDBAPIRandom::class.java)
         this.category_api = retrofit.create(MealDBAPICategories::class.java)
+        this.meal_by_category_api = retrofit.create(MealDBAPIbyCategory::class.java)
     }
     fun fetchMeals(): LiveData<List<Meal>> {
 
@@ -74,6 +76,36 @@ class MealDBExecutor {
                 var myCategories: List<Category>? = categoryResponse?.categories
                 responseLiveData.value = myCategories
                 Log.d(TAG, "Category List size: ${myCategories!!.size}")
+
+            }
+        })
+
+        return responseLiveData
+
+    }
+
+    fun fetchMealsByCategory(strCategory: String): LiveData<List<Meal>> {
+        val responseLiveData: MutableLiveData<List<Meal>> = MutableLiveData()
+
+        val mealDBRequest: Call<MealResponse> = this.meal_by_category_api.fetchMeals(strCategory)
+
+        mealDBRequest.enqueue(object: Callback<MealResponse> {
+
+            override fun onFailure(call: Call<MealResponse>, t: Throwable) {
+                Log.e(TAG, "Response received from MealDB fetch failed")
+            }
+
+            override fun onResponse(
+                call: Call<MealResponse>,
+                response: Response<MealResponse>
+            ) {
+                val mealResponse: MealResponse? = response.body()
+                Log.i(TAG, "Success!")
+                Log.i(TAG, response.raw().toString())
+
+                var myMeals: List<Meal>? = mealResponse?.meals
+                responseLiveData.value = myMeals
+                Log.d(TAG, "Meal List size: ${myMeals!!.size}")
 
             }
         })

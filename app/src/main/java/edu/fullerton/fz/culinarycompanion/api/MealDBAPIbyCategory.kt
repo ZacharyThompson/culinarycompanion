@@ -6,5 +6,5 @@ import retrofit2.http.Query
 
 interface MealDBAPIbyCategory {
     @GET("filter.php")
-    fun fetchMeals(@Query("c") category: String): Call<CategoryResponse>
+    fun fetchMeals(@Query("c") category: String): Call<MealResponse>
 }
