@@ -32,11 +32,6 @@ class MainActivity : AppCompatActivity() {
         reccomendedName = findViewById(R.id.tv_meal)
         reccomendedCategory = findViewById(R.id.iv_category)
         reccomendedArea = findViewById(R.id.iv_Area)
-        //here we call fetchMeals(random) to populate the headerimage
-        this.fetchMeals()
-        this.fetchFaves()
-        this.postFave("100")
-        this.fetchCategories()
     }
     fun fetchMeals(): LiveData<List<Meal>> {
         val responseLiveData: MutableLiveData<List<Meal>> = MutableLiveData()
