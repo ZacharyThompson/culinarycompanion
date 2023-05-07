@@ -1,5 +1,6 @@
 package edu.fullerton.fz.culinarycompanion
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -76,10 +77,15 @@ class MealListFragment(strCategory: String): Fragment() {
             Log.d(LOG_TAG, "Category2 Thumbnail loaded: ${meal2.strMealThumb}")
 
             meal1ImageView.setOnClickListener {
-
+                val intent = Intent(activity, DetailTabActivity::class.java)
+                intent.putExtra("idMeal", meal1.idMeal!!.toInt())
+                startActivity(intent)
             }
 
             meal2ImageView.setOnClickListener {
+                val intent = Intent(activity, DetailTabActivity::class.java)
+                intent.putExtra("idMeal", meal2.idMeal!!.toInt())
+                startActivity(intent)
 
             }
         }
