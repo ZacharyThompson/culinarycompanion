@@ -4,5 +4,5 @@ import retrofit2.http.GET
 
 interface MealDBAPIRandom {
     @GET("random.php")
-    fun fetchMeals(): Call<MealResponse>
+    fun fetchMeals(): Call<MealListResponse>
 }

@@ -29,24 +29,24 @@ class MealDBExecutor {
     fun fetchMealByID(idMeal: Int): LiveData<Meal> {
         val responseLiveData: MutableLiveData<Meal> = MutableLiveData()
 
-        val mealDBRequest: Call<MealResponse> = this.meal_by_id_api.fetchMeals(idMeal)
+        val mealDBRequest: Call<MealListResponse> = this.meal_by_id_api.fetchMeals(idMeal)
 
-        mealDBRequest.enqueue(object: Callback<MealResponse> {
+        mealDBRequest.enqueue(object: Callback<MealListResponse> {
 
-            override fun onFailure(call: Call<MealResponse>, t: Throwable) {
+            override fun onFailure(call: Call<MealListResponse>, t: Throwable) {
                 Log.e(TAG, "Response received from MealDB fetch failed")
             }
 
             override fun onResponse(
-                call: Call<MealResponse>,
-                response: Response<MealResponse>
+                call: Call<MealListResponse>,
+                response: Response<MealListResponse>
             ) {
-                val MealResponse: MealResponse? = response.body()
+                val MealListResponse: MealListResponse? = response.body()
                 Log.d(TAG, "Success!")
                 Log.d(TAG, response.raw().toString())
 
-                if (MealResponse != null) {
-                    var myMeal: Meal = MealResponse.meals[0]
+                if (MealListResponse != null) {
+                    var myMeal: Meal = MealListResponse.meals[0]
                     responseLiveData.value = myMeal
                 }
                 else {
@@ -58,30 +58,28 @@ class MealDBExecutor {
 
         return responseLiveData
     }
-    fun fetchMeals(): LiveData<List<Meal>> {
-
+    fun fetchRandomMeals(): LiveData<List<Meal>> {
         val responseLiveData: MutableLiveData<List<Meal>> = MutableLiveData()
 
-        val mealDBRequest: Call<MealResponse> = this.random_api.fetchMeals()
+        val mealDBRequest: Call<MealListResponse> = this.random_api.fetchMeals()
 
-        mealDBRequest.enqueue(object: Callback<MealResponse> {
+        mealDBRequest.enqueue(object: Callback<MealListResponse> {
 
-            override fun onFailure(call: Call<MealResponse>, t: Throwable) {
+            override fun onFailure(call: Call<MealListResponse>, t: Throwable) {
                 Log.e(TAG, "Response received from MealDB fetch failed")
             }
 
             override fun onResponse(
-                call: Call<MealResponse>,
-                response: Response<MealResponse>
+                call: Call<MealListResponse>,
+                response: Response<MealListResponse>
             ) {
-                val MealResponse: MealResponse? = response.body()
-                Log.d("API TEST", "Success!")
-                Log.d("API TEST", response.raw().toString())
+                val MealListResponse: MealListResponse? = response.body()
+                Log.d(TAG, "Success! Random Meal fetched")
+                Log.d(TAG, response.raw().toString())
 
-                var myMeals: List<Meal>? = MealResponse?.meals
-                //Log.d(TAG, "ImgFlip templates: $memeTemplates")
+                var myMeals: List<Meal>? = MealListResponse?.meals
                 responseLiveData.value = myMeals
-                Log.d("API TEST", myMeals!![0].strInstructions!!)
+                Log.d(TAG, myMeals!![0].strInstructions!!)
 
             }
         })
@@ -122,23 +120,23 @@ class MealDBExecutor {
     fun fetchMealsByCategory(strCategory: String): LiveData<List<Meal>> {
         val responseLiveData: MutableLiveData<List<Meal>> = MutableLiveData()
 
-        val mealDBRequest: Call<MealResponse> = this.meal_by_category_api.fetchMeals(strCategory)
+        val mealDBRequest: Call<MealListResponse> = this.meal_by_category_api.fetchMeals(strCategory)
 
-        mealDBRequest.enqueue(object: Callback<MealResponse> {
+        mealDBRequest.enqueue(object: Callback<MealListResponse> {
 
-            override fun onFailure(call: Call<MealResponse>, t: Throwable) {
+            override fun onFailure(call: Call<MealListResponse>, t: Throwable) {
                 Log.e(TAG, "Response received from MealDB fetch failed")
             }
 
             override fun onResponse(
-                call: Call<MealResponse>,
-                response: Response<MealResponse>
+                call: Call<MealListResponse>,
+                response: Response<MealListResponse>
             ) {
-                val mealResponse: MealResponse? = response.body()
+                val mealListResponse: MealListResponse? = response.body()
                 Log.i(TAG, "Success!")
                 Log.i(TAG, response.raw().toString())
 
-                var myMeals: List<Meal>? = mealResponse?.meals
+                var myMeals: List<Meal>? = mealListResponse?.meals
                 responseLiveData.value = myMeals
                 Log.d(TAG, "Meal List size: ${myMeals!!.size}")
 
