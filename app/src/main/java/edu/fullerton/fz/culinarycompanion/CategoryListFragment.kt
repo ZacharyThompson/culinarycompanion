@@ -1,5 +1,6 @@
 package edu.fullerton.fz.culinarycompanion
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -29,7 +30,7 @@ val DUMMY_CATEGORY_LIST = listOf<List<Category>>(
 val EMPTY_CATEGORY_LIST = listOf<List<Category>>()
 class CategoryListFragment : Fragment(){
     private lateinit var categoryRecyclerView: RecyclerView
-    private lateinit var categoryViewModel: CategoryViewModel
+    private lateinit var categoryListViewModel: CategoryListViewModel
 
     private var adapter: CategoryAdapter? = null
 
@@ -47,7 +48,7 @@ class CategoryListFragment : Fragment(){
         this.categoryRecyclerView.adapter = adapter
 
 //        val categories = DUMMY_CATEGORY_LIST
-        categoryViewModel.categoryLiveData.observe(viewLifecycleOwner) { category_list ->
+        categoryListViewModel.categoryLiveData.observe(viewLifecycleOwner) { category_list ->
             if (category_list != null) {
                 adapter = CategoryAdapter(category_list.chunked(2) {it.take(2)})
                 categoryRecyclerView.adapter = adapter
@@ -58,17 +59,17 @@ class CategoryListFragment : Fragment(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        this.categoryViewModel = ViewModelProvider(this.requireActivity())[CategoryViewModel::class.java]
+        this.categoryListViewModel = ViewModelProvider(this.requireActivity())[CategoryListViewModel::class.java]
     }
 
     private inner class CategoryHolder(view: View) : RecyclerView.ViewHolder(view) {
         private lateinit var category1: Category
         private lateinit var category2: Category
 
-        private val category1ImageView: ImageView = this.itemView.findViewById(R.id.category1_image_view)
-        private val category2ImageView: ImageView = this.itemView.findViewById(R.id.category2_image_view)
-        private val category1NameText: TextView = this.itemView.findViewById(R.id.category1_name_text_view)
-        private val category2NameText: TextView = this.itemView.findViewById(R.id.category2_name_text_view)
+        private val category1ImageView: ImageView = this.itemView.findViewById(R.id.listitem1_image_view)
+        private val category2ImageView: ImageView = this.itemView.findViewById(R.id.listitem2_image_view)
+        private val category1NameText: TextView = this.itemView.findViewById(R.id.listitem1_name_text_view)
+        private val category2NameText: TextView = this.itemView.findViewById(R.id.listitem2_name_text_view)
 
         fun bind(category1: Category, category2: Category) {
             this.category1 = category1
@@ -81,13 +82,25 @@ class CategoryListFragment : Fragment(){
             Picasso.get().load(category2.strCategoryThumb).into(category2ImageView)
             Log.d(LOG_TAG, "Category1 Thumbnail loaded: ${category1.strCategoryThumb}")
             Log.d(LOG_TAG, "Category2 Thumbnail loaded: ${category2.strCategoryThumb}")
+
+            category1ImageView.setOnClickListener {
+                val intent = Intent(activity, MealListByCategoryActivity::class.java)
+                intent.putExtra("strCategory", category1.strCategory)
+                startActivity(intent)
+            }
+
+            category2ImageView.setOnClickListener {
+                val intent = Intent(activity, MealListByCategoryActivity::class.java)
+                intent.putExtra("strCategory", category2.strCategory)
+                startActivity(intent)
+            }
         }
     }
     private inner class CategoryAdapter (var categories: List<List<Category>>)
         : RecyclerView.Adapter<CategoryHolder>()
     {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryHolder {
-            val view = layoutInflater.inflate(R.layout.list_item_category, parent, false)
+            val view = layoutInflater.inflate(R.layout.list_item, parent, false)
             return CategoryHolder(view)
         }
 

@@ -16,10 +16,10 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivity : AppCompatActivity() {
     private lateinit var headerImage: ImageView
-    private lateinit var categoryImage1: ImageView
-    private lateinit var categoryImage2: ImageView
-    private lateinit var categoryTXT1: TextView
-    private lateinit var categoryTXT2: TextView
+//    private lateinit var categoryImage1: ImageView
+//    private lateinit var categoryImage2: ImageView
+//    private lateinit var categoryTXT1: TextView
+//    private lateinit var categoryTXT2: TextView
     private lateinit var reccomendedName: TextView
     private lateinit var reccomendedCategory: TextView
     private lateinit var reccomendedArea: TextView
@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity() {
                 .add(R.id.category_list_frame_layout, fragment)
                 .commit()
         }
+
         fetchMeals()
 
         var details = findViewById<LinearLayout>(R.id.shimmer_recommendation)
@@ -170,8 +171,8 @@ class MainActivity : AppCompatActivity() {
                 var myCategories: List<Category>? = CategoryResponse?.categories
                 responseLiveData.value = myCategories
                 //here we actually access the data from the response and put it into the header
-                Picasso.get().load(myCategories!![0].strCategoryThumb).into(categoryImage1)
-                Picasso.get().load(myCategories!![1].strCategoryThumb).into(categoryImage2)
+//                Picasso.get().load(myCategories!![0].strCategoryThumb).into(categoryImage1)
+//                Picasso.get().load(myCategories!![1].strCategoryThumb).into(categoryImage2)
                 //categoryTXT1.setText(myCategories!![0].strCategory)
                 //categoryTXT2.setText(myCategories!![1].strCategory)
             }
