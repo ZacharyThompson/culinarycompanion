@@ -42,7 +42,13 @@ class MealListFragment(strCategory: String): Fragment() {
 
         mealListViewModel.mealLiveData.observe(viewLifecycleOwner) { meal_list ->
             if (meal_list != null) {
-                adapter = MealAdapter(meal_list.chunked(2) {it.take(2)})
+                var displayList = meal_list.chunked(2) {it.take(2)}
+                if (meal_list.size % 2 == 1) {
+                    displayList = displayList.dropLast(1);
+                }
+                Log.d(LOG_TAG, "$parentCategoryName # of meals: ${meal_list.size}")
+                Log.d(LOG_TAG, "$parentCategoryName # of meal pairs to display: ${displayList.size}")
+                adapter = MealAdapter(displayList)
                 mealRecyclerView.adapter = adapter
             }
         }
