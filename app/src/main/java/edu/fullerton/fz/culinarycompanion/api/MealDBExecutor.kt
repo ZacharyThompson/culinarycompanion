@@ -10,20 +10,22 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 private const val TAG = "MealDBExecutor"
 class MealDBExecutor {
-    private val api: MealDBAPIRandom
+    private val random_api: MealDBAPIRandom
+    private val category_api: MealDBAPICategories
 
     init {
         val retrofit: Retrofit = Retrofit.Builder()
             .baseUrl("https://www.themealdb.com/api/json/v1/1/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-        this.api = retrofit.create(MealDBAPIRandom::class.java)
+        this.random_api = retrofit.create(MealDBAPIRandom::class.java)
+        this.category_api = retrofit.create(MealDBAPICategories::class.java)
     }
     fun fetchMeals(): LiveData<List<Meal>> {
 
         val responseLiveData: MutableLiveData<List<Meal>> = MutableLiveData()
 
-        val mealDBRequest: Call<MealResponse> = this.api.fetchMeals()
+        val mealDBRequest: Call<MealResponse> = this.random_api.fetchMeals()
 
         mealDBRequest.enqueue(object: Callback<MealResponse> {
 
@@ -48,6 +50,36 @@ class MealDBExecutor {
         })
 
         return responseLiveData
+    }
+
+    fun fetchCategories(): LiveData<List<Category>> {
+        val responseLiveData: MutableLiveData<List<Category>> = MutableLiveData()
+
+        val mealDBRequest: Call<CategoryResponse> = this.category_api.fetchCategories()
+
+        mealDBRequest.enqueue(object: Callback<CategoryResponse> {
+
+            override fun onFailure(call: Call<CategoryResponse>, t: Throwable) {
+                Log.e(TAG, "Response received from CategoryDB fetch failed")
+            }
+
+            override fun onResponse(
+                call: Call<CategoryResponse>,
+                response: Response<CategoryResponse>
+            ) {
+                val categoryResponse: CategoryResponse? = response.body()
+                Log.i(TAG, "Success!")
+                Log.i(TAG, response.raw().toString())
+
+                var myCategories: List<Category>? = categoryResponse?.categories
+                responseLiveData.value = myCategories
+                Log.d(TAG, "Category List size: ${myCategories!!.size}")
+
+            }
+        })
+
+        return responseLiveData
+
     }
 
 }

@@ -25,13 +25,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         headerImage = findViewById(R.id.iv_meal)
-        categoryImage1 = findViewById(R.id.categoryimg1)
-        categoryImage2 = findViewById(R.id.categoryimg2)
-        categoryTXT1 = findViewById(R.id.category2text)
-        categoryTXT2 = findViewById(R.id.category1text)
-        reccomendedName = findViewById(R.id.tv_meal)
-        reccomendedCategory = findViewById(R.id.iv_category)
-        reccomendedArea = findViewById(R.id.iv_Area)
+        //here we call fetchMeals(random) to populate the headerimage
+        this.fetchMeals()
+
+        val categoryListFragment = this.supportFragmentManager.findFragmentById(R.id.category_list_frame_layout)
+        if (categoryListFragment == null) {
+            val fragment = CategoryListFragment()
+            this.supportFragmentManager
+                .beginTransaction()
+                .add(R.id.category_list_frame_layout, fragment)
+                .commit()
+        }
     }
     fun fetchMeals(): LiveData<List<Meal>> {
         val responseLiveData: MutableLiveData<List<Meal>> = MutableLiveData()
