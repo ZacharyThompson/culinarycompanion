@@ -24,7 +24,8 @@
             android:layout_width="match_parent"
             android:layout_height="175dp"
             android:scaleType="centerCrop"
-            android:src="@color/shimmerBg" />
+            android:src="@color/shimmerBg"
+            tools:srcCompat="@drawable/beef" />
 
     </androidx.cardview.widget.CardView>
 
