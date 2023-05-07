@@ -14,13 +14,13 @@
         app:cardElevation="5dp">
 
         <ImageView
-            android:id="@+id/category1_image_view"
+            android:id="@+id/listitem1_image_view"
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:src="@color/shimmerBg" />
 
         <TextView
-            android:id="@+id/category1_name_text_view"
+            android:id="@+id/listitem1_name_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="TextView" />
@@ -36,13 +36,13 @@
         app:cardElevation="5dp">
 
         <ImageView
-            android:id="@+id/category2_image_view"
+            android:id="@+id/listitem2_image_view"
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:src="@color/shimmerBg" />
 
         <TextView
-            android:id="@+id/category2_name_text_view"
+            android:id="@+id/listitem2_name_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="TextView" />

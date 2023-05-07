@@ -15,23 +15,18 @@ import edu.fullerton.fz.culinarycompanion.api.*
 import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var headerImage: ImageView
-    private lateinit var categoryImage1: ImageView
-    private lateinit var categoryImage2: ImageView
-    private lateinit var categoryTXT1: TextView
-    private lateinit var categoryTXT2: TextView
-    private lateinit var reccomendedName: TextView
-    private lateinit var reccomendedCategory: TextView
-    private lateinit var reccomendedArea: TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        headerImage = findViewById(R.id.iv_meal)
-        reccomendedName = findViewById(R.id.tv_meal)
-        reccomendedCategory = findViewById(R.id.iv_category)
-        reccomendedArea = findViewById(R.id.iv_Area)
-        //here we call fetchMeals(random) to populate the headerimage
-        this.fetchMeals()
+
+        val randomMealFragment = this.supportFragmentManager.findFragmentById(R.id.random_meal_frame_layout)
+        if (randomMealFragment == null) {
+            val fragment = RandomMealFragment()
+            this.supportFragmentManager
+                .beginTransaction()
+                .add(R.id.random_meal_frame_layout, fragment)
+                .commit()
+        }
 
         val categoryListFragment = this.supportFragmentManager.findFragmentById(R.id.category_list_frame_layout)
         if (categoryListFragment == null) {
@@ -41,50 +36,13 @@ class MainActivity : AppCompatActivity() {
                 .add(R.id.category_list_frame_layout, fragment)
                 .commit()
         }
-        fetchMeals()
 
-        var details = findViewById<LinearLayout>(R.id.shimmer_recommendation)
-        details.setOnClickListener {
-            val intent = Intent(this, DetailTabActivity::class.java)
-            startActivity(intent)
-        }
 
-    }
-    fun fetchMeals(): LiveData<List<Meal>> {
-        val responseLiveData: MutableLiveData<List<Meal>> = MutableLiveData()
-        val mealDBRequest: Call<MealResponse> = this.api.fetchMeals()
-        mealDBRequest.enqueue(object: Callback<MealResponse> {
-            override fun onFailure(call: Call<MealResponse>, t: Throwable) {
-                Log.e("Main API", "Response received from MealDB fetch failed")
-            }
-            override fun onResponse(
-                call: Call<MealResponse>,
-                response: Response<MealResponse>
-            ) {
-                val MealResponse: MealResponse? = response.body()
-                var myMeals: List<Meal>? = MealResponse?.meals
-                responseLiveData.value = myMeals
-                //here we actually access the data from the response and put it into the header
-                Picasso.get().load(myMeals!![0].strMealThumb).into(headerImage)
-                reccomendedName.setText(myMeals!![0].strMeal)
-                reccomendedArea.setText("Area: " +myMeals!![0].strArea)
-                reccomendedCategory.setText(myMeals!![0].strCategory)
-            }
-        })
-        return responseLiveData
+
     }
 
 
-
-    //here we are using the random endpoint.
-    private val api: MealDBAPIRandom
-    init {
-        val retrofit: Retrofit = Retrofit.Builder()
-            .baseUrl("https://www.themealdb.com/api/json/v1/1/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        this.api = retrofit.create(MealDBAPIRandom::class.java)
-    }
+    /*
     private val Faveapi: FavoritesAPI
     init {
         val retrofit: Retrofit = Retrofit.Builder()
@@ -154,40 +112,6 @@ class MainActivity : AppCompatActivity() {
 
         return responseLiveData
     }
+     */
 
-    fun fetchCategories(): LiveData<List<Category>> {
-        val responseLiveData: MutableLiveData<List<Category>> = MutableLiveData()
-        val mealDBRequest: Call<CategoryResponse> = this.categoryapi.fetchCategories()
-        mealDBRequest.enqueue(object: Callback<CategoryResponse> {
-            override fun onFailure(call: Call<CategoryResponse>, t: Throwable) {
-                Log.e("Main API", "Response received from MealDB fetch failed")
-            }
-            override fun onResponse(
-                call: Call<CategoryResponse>,
-                response: Response<CategoryResponse>
-            ) {
-                val CategoryResponse: CategoryResponse? = response.body()
-                var myCategories: List<Category>? = CategoryResponse?.categories
-                responseLiveData.value = myCategories
-                //here we actually access the data from the response and put it into the header
-                Picasso.get().load(myCategories!![0].strCategoryThumb).into(categoryImage1)
-                Picasso.get().load(myCategories!![1].strCategoryThumb).into(categoryImage2)
-                //categoryTXT1.setText(myCategories!![0].strCategory)
-                //categoryTXT2.setText(myCategories!![1].strCategory)
-            }
-        })
-        return responseLiveData
-    }
-
-
-
-    //here we are using the random endpoint.
-    private val categoryapi: MealDBAPICategories
-    init {
-        val retrofit: Retrofit = Retrofit.Builder()
-            .baseUrl("https://www.themealdb.com/api/json/v1/1/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        this.categoryapi = retrofit.create(MealDBAPICategories::class.java)
-    }
 }
