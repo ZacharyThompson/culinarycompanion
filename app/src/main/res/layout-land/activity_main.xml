@@ -24,7 +24,7 @@
         android:id="@+id/shimmer_recommendation"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.04"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,11 +33,12 @@
         <include layout="@layout/shimmer_recommendation" />
     </LinearLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/category_list"
+    <FrameLayout
+        android:id="@+id/category_list_frame_layout"
         android:layout_width="0dp"
         android:layout_height="350dp"
         android:layout_marginStart="10dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="60dp"
         android:orientation="horizontal"
@@ -48,7 +49,7 @@
         app:layout_constraintTop_toTopOf="@+id/shimmer_recommendation">
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
