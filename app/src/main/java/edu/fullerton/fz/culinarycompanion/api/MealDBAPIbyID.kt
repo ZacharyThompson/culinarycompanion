@@ -6,5 +6,5 @@ import retrofit2.http.Query
 
 interface MealDBAPIbyID {
     @GET("lookup.php")
-    fun fetchMeals(@Query("i") id: Int): Call<MealResponse>
+    fun fetchMeals(@Query("i") id: Int): Call<MealListResponse>
 }

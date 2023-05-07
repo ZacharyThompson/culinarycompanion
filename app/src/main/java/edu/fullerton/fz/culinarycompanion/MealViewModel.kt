@@ -1,8 +1,6 @@
 package edu.fullerton.fz.culinarycompanion
 
-import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import edu.fullerton.fz.culinarycompanion.api.Meal
 import edu.fullerton.fz.culinarycompanion.api.MealDBExecutor
@@ -10,7 +8,7 @@ import edu.fullerton.fz.culinarycompanion.api.MealDBExecutor
 class MealViewModel: ViewModel() {
     private var mealIndex: Int = 0
 
-    val mealLiveData: LiveData<List<Meal>> = MealDBExecutor().fetchMeals()
+    val mealLiveData: LiveData<List<Meal>> = MealDBExecutor().fetchRandomMeals()
 
     fun getTemplateIndex(): Int {
         return this.mealIndex

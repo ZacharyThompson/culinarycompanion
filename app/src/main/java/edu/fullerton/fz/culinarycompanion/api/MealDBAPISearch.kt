@@ -6,5 +6,5 @@ import retrofit2.http.Query
 
 interface MealDBAPISearch {
     @GET("search.php")
-    fun fetchMeals(@Query("s") searchPhrase: String): Call<MealResponse>
+    fun fetchMeals(@Query("s") searchPhrase: String): Call<MealListResponse>
 }
