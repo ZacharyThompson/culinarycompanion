@@ -22,8 +22,8 @@ class DetailTabActivity : AppCompatActivity() {
         val idMeal = intent.getIntExtra("idMeal", 0)
 
         // Find views
-        val mealThumbImageView: ImageView = findViewById(R.id.randMealImageView)
-        val mealNameTextView: TextView = findViewById(R.id.randMealTextView)
+        val mealThumbImageView: ImageView = findViewById(R.id.mealImageView)
+        val mealNameTextView: TextView = findViewById(R.id.mealTextView)
 
         val detailTabViewModel = ViewModelProvider(this)[DetailTabViewModel::class.java]
 
