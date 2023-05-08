@@ -61,8 +61,11 @@ class DetailTabActivity : AppCompatActivity() {
                     meal.strIngredient20,
                 )
                 for (ingredient in ingredients) {
-                    if (ingredient != "" || ingredient != null) {
-                        ingredientsListTextView.append(ingredient + "\n")
+                    if (ingredient != null) {
+                        if (ingredient.trim() != "") {
+                            Log.d(LOG_TAG, "Ingredient string: $ingredient")
+                            ingredientsListTextView.append(ingredient.trim() + "\n")
+                        }
                     }
                 }
                 ingredientsListTextView.text = ingredientsListTextView.text.trimEnd()
@@ -89,8 +92,11 @@ class DetailTabActivity : AppCompatActivity() {
                     meal.strMeasure20,
                 )
                 for (measure in measures) {
-                    if (measure != "" || measure != null) {
-                        measuresListTextView.append(measure + "\n")
+                    if (measure != null) {
+                        if (measure.trim() != "") {
+                            Log.d(LOG_TAG, "Measure string: $measure")
+                            measuresListTextView.append(measure.trim() + "\n")
+                        }
                     }
                 }
                 measuresListTextView.text = measuresListTextView.text.trimEnd()
