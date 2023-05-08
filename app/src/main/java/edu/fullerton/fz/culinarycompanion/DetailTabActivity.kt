@@ -26,6 +26,7 @@ class DetailTabActivity : AppCompatActivity() {
         val mealNameTextView: TextView = findViewById(R.id.mealTextView)
         val instructionsTextView: TextView = findViewById(R.id.instructionsTextView)
         val ingredientsListTextView: TextView = findViewById(R.id.ingredientsListTextVIew)
+        val measuresListTextView: TextView = findViewById(R.id.measuresTextView)
 
         val detailTabViewModel = ViewModelProvider(this)[DetailTabViewModel::class.java]
 
@@ -60,8 +61,39 @@ class DetailTabActivity : AppCompatActivity() {
                     meal.strIngredient20,
                 )
                 for (ingredient in ingredients) {
-                    ingredientsListTextView.append(ingredient + "\n")
+                    if (ingredient != "" || ingredient != null) {
+                        ingredientsListTextView.append(ingredient + "\n")
+                    }
                 }
+                ingredientsListTextView.text = ingredientsListTextView.text.trimEnd()
+                val measures = listOf(
+                    meal.strMeasure1,
+                    meal.strMeasure2,
+                    meal.strMeasure3,
+                    meal.strMeasure4,
+                    meal.strMeasure5,
+                    meal.strMeasure6,
+                    meal.strMeasure7,
+                    meal.strMeasure8,
+                    meal.strMeasure9,
+                    meal.strMeasure10,
+                    meal.strMeasure11,
+                    meal.strMeasure12,
+                    meal.strMeasure13,
+                    meal.strMeasure14,
+                    meal.strMeasure15,
+                    meal.strMeasure16,
+                    meal.strMeasure17,
+                    meal.strMeasure18,
+                    meal.strMeasure19,
+                    meal.strMeasure20,
+                )
+                for (measure in measures) {
+                    if (measure != "" || measure != null) {
+                        measuresListTextView.append(measure + "\n")
+                    }
+                }
+                measuresListTextView.text = measuresListTextView.text.trimEnd()
             }
         }
     }
