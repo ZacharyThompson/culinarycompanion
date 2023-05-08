@@ -18,7 +18,8 @@ class MealListByCategoryActivity : AppCompatActivity(){
             // Initialize meal list fragment
             val mealListFragment = this.supportFragmentManager.findFragmentById(R.id.meal_list_frame_layout)
             if (mealListFragment == null) {
-                val fragment = MealListFragment(strCategory)
+                val fragment = MealListFragment()
+                fragment.setParentCategory(strCategory)
                 this.supportFragmentManager
                     .beginTransaction()
                     .add(R.id.meal_list_frame_layout, fragment)

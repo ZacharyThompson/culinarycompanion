@@ -20,13 +20,21 @@ private const val LOG_TAG = "MealListFragment"
 
 val EMPTY_MEAL_LIST = listOf<List<Meal>>()
 
-class MealListFragment(strCategory: String): Fragment() {
+private const val CATEGORY_KEY = "PARENT_CATEGORY"
+class MealListFragment(): Fragment() {
     private lateinit var mealRecyclerView: RecyclerView
     private lateinit var mealListViewModel: MealListViewModel
-    private var parentCategoryName: String = strCategory
+    private var parentCategoryName = ""
 
     private var adapter: MealAdapter? = null
 
+    fun setParentCategory(strCategory: String) {
+        parentCategoryName = strCategory
+    }
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(CATEGORY_KEY, parentCategoryName)
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -57,6 +65,9 @@ class MealListFragment(strCategory: String): Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (savedInstanceState != null) {
+            parentCategoryName = savedInstanceState.getString(CATEGORY_KEY).toString()
+        }
         this.mealListViewModel = ViewModelProvider(this.requireActivity())[MealListViewModel::class.java]
         this.mealListViewModel.getMealsByCategory(parentCategoryName)
     }
@@ -114,8 +125,8 @@ class MealListFragment(strCategory: String): Fragment() {
     }
 
     companion object {
-        fun newInstance(strCategory: String): MealListFragment {
-            return MealListFragment(strCategory)
+        fun newInstance(): MealListFragment {
+            return MealListFragment()
         }
     }
 }
