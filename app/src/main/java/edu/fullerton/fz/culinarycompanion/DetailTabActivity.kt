@@ -17,8 +17,8 @@ class DetailTabActivity : AppCompatActivity() {
         val mealLiveData = MealDBExecutor().fetchMealByID(idMeal)
 
         // Find views
-        val mealThumbImageView: ImageView = findViewById(R.id.randMealImageView)
-        val mealNameTextView: TextView = findViewById(R.id.randMealTextView)
+        val mealThumbImageView: ImageView = findViewById(R.id.mealImageView)
+        val mealNameTextView: TextView = findViewById(R.id.mealTextView)
 
 
         // Populate views with meal data
