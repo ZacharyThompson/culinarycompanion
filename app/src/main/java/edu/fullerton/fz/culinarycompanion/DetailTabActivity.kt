@@ -1,30 +1,40 @@
 package edu.fullerton.fz.culinarycompanion
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.AttributeSet
+import android.util.Log
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.squareup.picasso.Picasso
-import edu.fullerton.fz.culinarycompanion.api.MealDBExecutor
+import edu.fullerton.fz.culinarycompanion.api.Meal
 
+private const val LOG_TAG = "DetailTabActivity"
 class DetailTabActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_tab)
 
-        // Fetch meal using api
         val idMeal = intent.getIntExtra("idMeal", 0)
-        val mealLiveData = MealDBExecutor().fetchMealByID(idMeal)
 
         // Find views
         val mealThumbImageView: ImageView = findViewById(R.id.randMealImageView)
         val mealNameTextView: TextView = findViewById(R.id.randMealTextView)
 
+        val detailTabViewModel = ViewModelProvider(this)[DetailTabViewModel::class.java]
 
-        // Populate views with meal data
-        if (mealLiveData.value != null) {
-            Picasso.get().load(mealLiveData.value!!.strMealThumb).into(mealThumbImageView)
-            mealNameTextView.text = mealLiveData.value!!.strMeal
+        detailTabViewModel.setMeal(idMeal)
+        detailTabViewModel.mealLiveData.observe(this) {meal->
+            if (meal != null) {
+                Log.d(LOG_TAG, "Meal Name: ${meal.strMeal}")
+                // Populate views with meal data
+                Picasso.get().load(meal.strMealThumb).into(mealThumbImageView)
+                mealNameTextView.text = meal.strMeal
+            }
         }
     }
 }

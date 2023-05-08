@@ -37,13 +37,15 @@ class RandomMealFragment: Fragment() {
                 randMealCategoryText.text = meal.strCategory
                 randMealAreaText.text = meal.strArea
                 Picasso.get().load(meal.strMealThumb).into(randMealImage)
+
+                randMealImage.setOnClickListener {
+                    val intent = Intent(activity, DetailTabActivity::class.java)
+                    intent.putExtra("idMeal", meal.idMeal!!.toInt())
+                    startActivity(intent)
+                }
             }
         }
 
-        randMealImage.setOnClickListener {
-            val intent = Intent(activity, DetailTabActivity::class.java)
-            startActivity(intent)
-        }
 
         return view
     }
