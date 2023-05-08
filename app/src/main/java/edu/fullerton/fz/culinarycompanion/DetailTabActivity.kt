@@ -24,6 +24,8 @@ class DetailTabActivity : AppCompatActivity() {
         // Find views
         val mealThumbImageView: ImageView = findViewById(R.id.mealImageView)
         val mealNameTextView: TextView = findViewById(R.id.mealTextView)
+        val instructionsTextView: TextView = findViewById(R.id.instructionsTextView)
+        val ingredientsListTextView: TextView = findViewById(R.id.ingredientsListTextVIew)
 
         val detailTabViewModel = ViewModelProvider(this)[DetailTabViewModel::class.java]
 
@@ -34,6 +36,32 @@ class DetailTabActivity : AppCompatActivity() {
                 // Populate views with meal data
                 Picasso.get().load(meal.strMealThumb).into(mealThumbImageView)
                 mealNameTextView.text = meal.strMeal
+                instructionsTextView.text = meal.strInstructions
+                val ingredients = listOf(
+                    meal.strIngredient1,
+                    meal.strIngredient2,
+                    meal.strIngredient3,
+                    meal.strIngredient4,
+                    meal.strIngredient5,
+                    meal.strIngredient6,
+                    meal.strIngredient7,
+                    meal.strIngredient8,
+                    meal.strIngredient9,
+                    meal.strIngredient10,
+                    meal.strIngredient11,
+                    meal.strIngredient12,
+                    meal.strIngredient13,
+                    meal.strIngredient14,
+                    meal.strIngredient15,
+                    meal.strIngredient16,
+                    meal.strIngredient17,
+                    meal.strIngredient18,
+                    meal.strIngredient19,
+                    meal.strIngredient20,
+                )
+                for (ingredient in ingredients) {
+                    ingredientsListTextView.append(ingredient + "\n")
+                }
             }
         }
     }
