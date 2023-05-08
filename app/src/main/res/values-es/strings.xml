@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Recetas de comida</string>
+    <string name="hello_chef">Bienvenido, chef!</string>
+    <string name="home_greeting">¿Qué te gustaría cocinar hoy?</string>
+    <string name="recommended">Recomendado</string>
+    <string name="categories">Categorías</string>
+    <string name="ingredients">Ingredientes</string>
+    <string name="instructions">Instrucciones</string>
+    <string name="watch_video">Ver Video</string>
+</resources>
