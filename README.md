@@ -4,3 +4,6 @@ Our submission for CPSC 411, Section 01, Final Project
 * Nathan Kim <Nathan.kim@csu.fullerton.edu> 887582997
 * Javier Perez <javierp2013@csu.fullerton.edu> 889426516
 * Zachary Thompson <zachth1723@csu.fullerton.edu> 887795516
+
+# Youtube Player Library
+https://github.com/PierfrancescoSoffritti/android-youtube-player
