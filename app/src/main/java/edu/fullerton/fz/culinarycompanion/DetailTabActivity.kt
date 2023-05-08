@@ -6,11 +6,13 @@ import android.os.Bundle
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.squareup.picasso.Picasso
+import edu.fullerton.fz.culinarycompanion.api.FavoritesExecutor
 import edu.fullerton.fz.culinarycompanion.api.Meal
 
 private const val LOG_TAG = "DetailTabActivity"
@@ -27,9 +29,12 @@ class DetailTabActivity : AppCompatActivity() {
         val instructionsTextView: TextView = findViewById(R.id.instructionsTextView)
         val ingredientsListTextView: TextView = findViewById(R.id.ingredientsListTextVIew)
         val measuresListTextView: TextView = findViewById(R.id.measuresTextView)
+        val faveButton: Button = findViewById(R.id.favoriteButton)
 
         val detailTabViewModel = ViewModelProvider(this)[DetailTabViewModel::class.java]
-
+        faveButton.setOnClickListener{
+            FavoritesExecutor().postFave(idMeal.toString())
+        }
         detailTabViewModel.setMeal(idMeal)
         detailTabViewModel.mealLiveData.observe(this) {meal->
             if (meal != null) {
