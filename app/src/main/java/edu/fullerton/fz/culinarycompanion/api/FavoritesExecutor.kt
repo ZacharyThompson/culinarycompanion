@@ -14,7 +14,7 @@ class FavoritesExecutor {
 
     init {
         val retrofit: Retrofit = Retrofit.Builder()
-            .baseUrl("http://localhost:8080/")
+            .baseUrl("http://waggles.org:8080/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         this.api = retrofit.create(FavoritesAPI::class.java)
@@ -43,6 +43,36 @@ class FavoritesExecutor {
                 //Log.d(TAG, "ImgFlip templates: $memeTemplates")
                 responseLiveData.value = favorites
                 Log.d("API TEST", favorites!![0])
+
+            }
+        })
+
+        return responseLiveData
+    }
+    fun postFave(value:String): LiveData<String> {
+
+        val responseLiveData: MutableLiveData<String> = MutableLiveData()
+
+        val favoritesRequest: Call<favePostResponse> = this.api.postFavorite(value)
+
+        favoritesRequest.enqueue(object: Callback<favePostResponse> {
+
+            override fun onFailure(call: Call<favePostResponse>, t: Throwable) {
+                Log.e("API TEST", "Response received from FavoritesAPI fetch failed" + t.message)
+            }
+
+            override fun onResponse(
+                call: Call<favePostResponse>,
+                response: Response<favePostResponse>
+            ) {
+                val favoritesResponse: favePostResponse? = response.body()
+                Log.d("API TEST", "Success!")
+                Log.d("API TEST", response.raw().toString())
+
+                var favorites: String? = favoritesResponse?.fave
+                //Log.d(TAG, "ImgFlip templates: $memeTemplates")
+                responseLiveData.value = favorites
+                Log.d("Favorites POST test", favorites!!)
 
             }
         })
