@@ -1,21 +1,27 @@
 package edu.fullerton.fz.culinarycompanion
 
-import android.content.Context
+import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.AttributeSet
 import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import com.squareup.picasso.Picasso
 import edu.fullerton.fz.culinarycompanion.api.FavoritesExecutor
-import edu.fullerton.fz.culinarycompanion.api.Meal
 
 private const val LOG_TAG = "DetailTabActivity"
+private fun extractYoutubeVideoId(ytLink: String): String? {
+    val pattern = "(?<=v=|youtu.be/)[a-zA-Z0-9_-]{11}".toRegex()
+    val matchResult = pattern.find(ytLink)
+    return matchResult?.value
+}
 class DetailTabActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +37,10 @@ class DetailTabActivity : AppCompatActivity() {
         val measuresListTextView: TextView = findViewById(R.id.measuresTextView)
         val faveButton: Button = findViewById(R.id.favoriteButton)
 
+        val youtubePlayerView: YouTubePlayerView = findViewById(R.id.youtube_player_view)
+        lifecycle.addObserver(youtubePlayerView)
+        youtubePlayerView.enableAutomaticInitialization = false
+
         val detailTabViewModel = ViewModelProvider(this)[DetailTabViewModel::class.java]
         faveButton.setOnClickListener{
             FavoritesExecutor().postFave(idMeal.toString())
@@ -42,7 +52,34 @@ class DetailTabActivity : AppCompatActivity() {
                 // Populate views with meal data
                 Picasso.get().load(meal.strMealThumb).into(mealThumbImageView)
                 mealNameTextView.text = meal.strMeal
-                instructionsTextView.text = meal.strInstructions
+
+                var youtubeLink: String? = ""
+                if (meal.strYoutube != null) {
+                    Log.i(LOG_TAG, "Youtube video loading ${meal.strYoutube}")
+                    youtubeLink = extractYoutubeVideoId(meal.strYoutube!!)
+                    Log.i(LOG_TAG, "Youtube video ID extracted $youtubeLink")
+                    if (youtubeLink != null) {
+                        youtubePlayerView.initialize(object : AbstractYouTubePlayerListener() {
+                            override fun onReady(player: YouTubePlayer) {
+                                player.cueVideo(youtubeLink, 0f)
+                            }
+
+                            override fun onError(
+                                youTubePlayer: YouTubePlayer,
+                                error: PlayerConstants.PlayerError
+                            ) {
+                                super.onError(youTubePlayer, error)
+                                Log.e(LOG_TAG, "ERROR LOADING VIDEO ${meal.strYoutube} : $error")
+                            }
+                        })
+                    } else {
+                        youtubePlayerView.visibility = View.GONE
+                    }
+                } else {
+                    youtubePlayerView.visibility = View.GONE
+                }
+
+                instructionsTextView.text = meal.strInstructions!!.trimEnd()
                 val ingredients = listOf(
                     meal.strIngredient1,
                     meal.strIngredient2,
