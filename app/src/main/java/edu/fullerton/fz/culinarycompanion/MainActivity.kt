@@ -12,12 +12,16 @@ import androidx.lifecycle.MutableLiveData
 import com.squareup.picasso.Picasso
 import retrofit2.*
 import edu.fullerton.fz.culinarycompanion.api.*
+import edu.fullerton.fz.culinarycompanion.db.Favorite
+import edu.fullerton.fz.culinarycompanion.db.myDatabaseRepository
 import retrofit2.converter.gson.GsonConverterFactory
+
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
 
         val randomMealFragment = this.supportFragmentManager.findFragmentById(R.id.random_meal_frame_layout)
         if (randomMealFragment == null) {
@@ -36,6 +40,8 @@ class MainActivity : AppCompatActivity() {
                 .add(R.id.category_list_frame_layout, fragment)
                 .commit()
         }
+
+
 
 
 

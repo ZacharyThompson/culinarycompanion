@@ -11,10 +11,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
 import com.squareup.picasso.Picasso
+import edu.fullerton.fz.culinarycompanion.api.FavoritesExecutor
 import edu.fullerton.fz.culinarycompanion.api.Meal
+import edu.fullerton.fz.culinarycompanion.db.Favorite
+import edu.fullerton.fz.culinarycompanion.db.myDatabaseRepository
 
 class RandomMealFragment: Fragment() {
     private lateinit var randomMealViewModel: RandomMealViewModel
+    private lateinit var dbRepo: myDatabaseRepository
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,6 +32,7 @@ class RandomMealFragment: Fragment() {
         val randMealCategoryText: TextView = view.findViewById(R.id.randMealCategoryTextView)
         val randMealAreaText: TextView = view.findViewById(R.id.randMealAreaTextView)
         val randMealImage: ImageView = view.findViewById(R.id.randMealImageView)
+        this.dbRepo = myDatabaseRepository(this)
 
         randomMealViewModel.getRandMealLiveData().observe(viewLifecycleOwner) {randMealList ->
             randMealList?.let {
@@ -50,6 +55,7 @@ class RandomMealFragment: Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         randomMealViewModel = ViewModelProvider(this.requireActivity())[RandomMealViewModel::class.java]
+        val faveLiveData = FavoritesExecutor().fetchFavorites()
     }
 
     companion object {
