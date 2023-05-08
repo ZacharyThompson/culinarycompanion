@@ -19,7 +19,7 @@ class FavoritesExecutor {
             .build()
         this.api = retrofit.create(FavoritesAPI::class.java)
     }
-    fun fetchMeals(): LiveData<List<String>> {
+    fun fetchFavorites(): LiveData<List<String>> {
 
         val responseLiveData: MutableLiveData<List<String>> = MutableLiveData()
 
