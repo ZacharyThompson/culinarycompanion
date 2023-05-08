@@ -23,6 +23,7 @@
             android:id="@+id/listitem1_name_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             android:text="TextView" />
 
     </androidx.cardview.widget.CardView>
@@ -45,6 +46,7 @@
             android:id="@+id/listitem2_name_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             android:text="TextView" />
 
     </androidx.cardview.widget.CardView>

@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
 import com.squareup.picasso.Picasso
 import edu.fullerton.fz.culinarycompanion.api.FavoritesExecutor
@@ -28,10 +27,10 @@ class RandomMealFragment: Fragment() {
         val view = inflater.inflate(R.layout.fragment_random_meal, container, false)
 
         // Find views
-        val randMealNameText: TextView = view.findViewById(R.id.randMealTextView)
+        val randMealNameText: TextView = view.findViewById(R.id.mealTextView)
         val randMealCategoryText: TextView = view.findViewById(R.id.randMealCategoryTextView)
         val randMealAreaText: TextView = view.findViewById(R.id.randMealAreaTextView)
-        val randMealImage: ImageView = view.findViewById(R.id.randMealImageView)
+        val randMealImage: ImageView = view.findViewById(R.id.mealImageView)
         this.dbRepo = myDatabaseRepository(this)
 
         randomMealViewModel.getRandMealLiveData().observe(viewLifecycleOwner) {randMealList ->
@@ -42,13 +41,15 @@ class RandomMealFragment: Fragment() {
                 randMealCategoryText.text = meal.strCategory
                 randMealAreaText.text = meal.strArea
                 Picasso.get().load(meal.strMealThumb).into(randMealImage)
+
+                randMealImage.setOnClickListener {
+                    val intent = Intent(activity, DetailTabActivity::class.java)
+                    intent.putExtra("idMeal", meal.idMeal!!.toInt())
+                    startActivity(intent)
+                }
             }
         }
 
-        randMealImage.setOnClickListener {
-            val intent = Intent(activity, DetailTabActivity::class.java)
-            startActivity(intent)
-        }
 
         return view
     }

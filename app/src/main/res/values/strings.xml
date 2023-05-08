@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Food Recipes</string>
+    <string name="app_name">Culinary Companion</string>
     <string name="hello_chef">Welcome back, chef!</string>
     <string name="home_greeting">What would you like to cook today?</string>
     <string name="recommended">Recommended</string>

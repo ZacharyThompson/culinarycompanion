@@ -20,7 +20,7 @@ android:layout_height="wrap_content">
     app:layout_constraintTop_toTopOf="parent">
 
     <ImageView
-        android:id="@+id/randMealImageView"
+        android:id="@+id/mealImageView"
         android:layout_width="match_parent"
         android:layout_height="175dp"
         android:scaleType="centerCrop"
@@ -50,7 +50,7 @@ android:layout_height="wrap_content">
         android:paddingBottom="8dp">
 
         <TextView
-            android:id="@+id/randMealTextView"
+            android:id="@+id/mealTextView"
             android:layout_width="200dp"
             android:layout_height="20dp"
             android:layout_marginStart="8dp"
@@ -69,9 +69,9 @@ android:layout_height="wrap_content">
             android:layout_marginTop="8dp"
             android:gravity="center"
             android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="@+id/randMealTextView"
-            app:layout_constraintStart_toStartOf="@+id/randMealTextView"
-            app:layout_constraintTop_toBottomOf="@+id/randMealTextView">
+            app:layout_constraintEnd_toEndOf="@+id/mealTextView"
+            app:layout_constraintStart_toStartOf="@+id/mealTextView"
+            app:layout_constraintTop_toBottomOf="@+id/mealTextView">
 
             <TextView
                 android:id="@+id/randMealCategoryTextView"
